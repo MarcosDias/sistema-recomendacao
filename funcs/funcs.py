@@ -58,6 +58,26 @@ def monta_indice_arquivo(path_arquivo):
     return dic
 
 
+#['sports', {'bola': 4, 'gol': 2, 'neymar': 1}]
+def calcula_distancia(list_test, list_global):
+
+    words_test = list_test[1]
+    words_global = list_global[1]
+    distancia = 0
+
+    for chave in words_test:
+        if chave in words_global:
+            distancia += (words_test[chave] - words_global[chave])**2
+        else:
+            distancia += (words_test[chave])**2
+
+    for chave in words_global:
+        if chave not in words_test:
+            distancia += (words_global[chave])**2
+
+    return distancia
+
+
 if __name__ == "__main__":
     BASE_CONHECIMENTO1 = "../data/01-train.txt"
     ARQUIVOS_TESTE1 = "../data/01-test.txt"
