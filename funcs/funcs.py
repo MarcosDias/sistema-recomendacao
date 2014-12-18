@@ -53,7 +53,7 @@ def monta_indice_arquivo(path_arquivo):
     dic = {}
     list = monta_arquivos(path_arquivo)
     for arq in list:
-        dic[arq[0]] = [arq[1], monta_indice('../' + arq[0])]
+        dic[arq[0]] = [arq[1], monta_indice(arq[0])]
 
     return dic
 
