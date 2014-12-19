@@ -27,11 +27,7 @@ Conteúdo para Sugestão de Notícias Relacionadas ==="
 
         list_distancia.sort(key=get_key_sort)
 
-        print '--------------------------'
-        print 'Textos mais parecidos'
-        print '--------------------------'
-        for i in list_distancia:
-            print i[1], i[0]
+        print_list_distancia(list_distancia, 3)
 
 
 def get_key_sort(l):
@@ -42,6 +38,15 @@ def print_arquivo_classe(path, classe):
     print
     print path, classe
 
+
+def print_list_distancia(list_distancia, quant_loops):
+    k = 0
+    print '--------------------------'
+    print 'Textos mais parecidos'
+    print '--------------------------'
+    while k < quant_loops and k < len(list_distancia):
+        print list_distancia[k][1], list_distancia[k][0]
+        k += 1
 
 if __name__ == "__main__":
     start()

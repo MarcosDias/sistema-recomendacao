@@ -58,22 +58,31 @@ def monta_indice_arquivo(path_arquivo):
     return dic
 
 
-#['sports', {'bola': 4, 'gol': 2, 'neymar': 1}]
 def calcula_distancia(list_test, list_global):
+    """
+    Recebe os valores dos dicionarios de indice globla e o de test,
+    esses valores tem um formato de uma lista
+    como segue o exemplo:
+    ['sports', {'bola': 4, 'gol': 2, 'neymar': 1}]
+    E calcula a distancia (euclidiana) entre os indices
 
+    :param list_test: lista contendo a classe e o dicionario de indices do test
+    :param list_global: lista contendo a classe e o dicionario de indices da base de conhecimento (global)
+    :return: retorna a distancia calculada
+    """
     words_test = list_test[1]
     words_global = list_global[1]
     distancia = 0
 
     for chave in words_test:
         if chave in words_global:
-            distancia += (words_test[chave] - words_global[chave])**2
+            distancia += (words_test[chave] - words_global[chave]) ** 2
         else:
-            distancia += (words_test[chave])**2
+            distancia += (words_test[chave]) ** 2
 
     for chave in words_global:
         if chave not in words_test:
-            distancia += (words_global[chave])**2
+            distancia += (words_global[chave]) ** 2
 
     return distancia
 
