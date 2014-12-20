@@ -13,13 +13,13 @@ def monta_arquivos(path):
         listas onde o primeiro elemento eh o path do
         arquivo e o segundo elemento eh a sua classe
     """
-    list = []
+    base = []
     with open(path) as f:
         data = f.read().splitlines()
         for arquivo in data:
-            list.append(arquivo.split(' '))
+            base.append(arquivo.split(' '))
 
-        return list
+        return base
 
 
 def monta_indice(path):
@@ -51,8 +51,8 @@ def monta_indice_arquivo(path_arquivo):
     :return: retorna um dicionario com o indice de cada arquivo escrito no arquivo original
     """
     dic = {}
-    list = monta_arquivos(path_arquivo)
-    for arq in list:
+    base = monta_arquivos(path_arquivo)
+    for arq in base:
         dic[arq[0]] = [arq[1], monta_indice(arq[0])]
 
     return dic
@@ -85,6 +85,70 @@ def calcula_distancia(list_test, list_global):
             distancia += (words_global[chave]) ** 2
 
     return distancia
+
+
+def get_maior_distancia(list_distancia):
+    """
+    Calcula a maior distancia dentro da lista
+    A lista tem esse formato:
+    [[DISTANCIA, ARQUIVO, CLASSE]]
+
+    :param list_distancia: lista contendo as distancias entre os arquivos
+    :return: retorna a maior distancia entre as distancias dos arquivos
+    """
+    maior = 0
+    for corpo in list_distancia:
+        if corpo[0] > maior:
+            maior = corpo[0]
+    return maior
+
+
+def existe_em(lista, classe):
+    """
+    Funcao auxiliar que verifica se existe a classe na lista.
+    Essa funcao ajudarah na filtragem das classes que ja foram contadas
+
+    :param lista: Lista de apoio para calcular qual a classe do arquivo
+    :param classe: Classe que estamos pesquisando
+    :return: retorna True, se for encontrado, e False caso contrario
+    """
+    if len(lista) > 0:
+        for corpo in lista:
+            if classe in corpo:
+                return True
+
+    return False
+
+
+def soma_distancias(classe, list_distancia, maior_distancia):
+    """
+    Dado classe de um arquivo e a lista das distancias de formato:
+    [[DISTANCIA, ARQUIVO, CLASSE]]
+    soma todas as distancias de uma classe
+
+    :param classe: Classe que sera contada
+    :param list_distancia: lista contendo as distancias dos arquivos
+    :param maior_distancia: maior distancia entre todas
+    :return: retorna a soma das distancias de uma classe especifica
+    """
+    soma = 0
+    for corpo in list_distancia:
+        if corpo[2] == classe:
+            soma += (maior_distancia * 1.0) / corpo[0]
+
+    return soma
+
+
+# [[DISTANCIA, ARQUIVO, CLASSE]]
+def calcula_classe(list_distancia):
+    classe_distancia = []
+
+    for corpo in list_distancia:
+        if not existe_em(classe_distancia, corpo[2]):
+            soma_classe = soma_distancias(corpo[2], list_distancia, get_maior_distancia(list_distancia))
+            classe_distancia.append([soma_classe, corpo[2]])
+
+    return classe_distancia
 
 
 if __name__ == "__main__":
